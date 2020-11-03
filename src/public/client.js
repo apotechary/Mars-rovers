@@ -1,51 +1,124 @@
+// variable keeping state information
 let store = {
-    user: { name: "Student" },
-    apod: '',
+    currentPage: 'home',
+    user: { name: 'Student' },
+    apod: null,
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
 }
+// const imagesOfRovers => {
+//     if rovers == 'Curiosity' {
 
-// add our markup to the page
-const root = document.getElementById('root')
+//     }
+// }
 
+// dynamic element of the app
+const rootBodyElement = document.getElementById('root')
+
+// updates the state variable
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
-    render(root, store)
+    // render(rootBodyElement, store)
 }
 
+// given rootBody element and current state, render the html page
 const render = async (root, state) => {
-    root.innerHTML = App(state)
+    root.innerHTML = AppBody(state)
 }
 
+//const astronomy
 
 // create content
-const App = (state) => {
-    let { rovers, apod } = state
+const AppBody = (state) => {
+    let { rovers, apod, currentPage } = state
+    //// THIS IS WHERE THE CONTENT THAT WAS DISPLAYED ON PAGE WAS LOCATED --AFTER THE RETURN STATEMENT 
+
+    if (currentPage == 'mars') {
+        return `
+            <h3>Weather forcast for Mars is </h3>
+            <p>Here is an example section.</p> 
+        </section> 
+        `
+    }
+
+    if (currentPage == 'astronomy') {
+        return `
+           ${ImageOfTheDay(apod)}
+        `
+    }
 
     return `
-        <header></header>
-        <main>
-            ${Greeting(store.user.name)}
-            <section>
-                <h3>Put things on the page!</h3>
-                <p>Here is an example section.</p>
-                <p>
-                    One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-                    the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-                    This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-                    applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-                    explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-                    but generally help with discoverability of relevant imagery.
-                </p>
-                ${ImageOfTheDay(apod)}
-            </section>
-        </main>
-        <footer></footer>
+    
+    <div class="container">
+    <div class="row">
+      <div class="col-4">
+      <div class="card" style="width:23rem;">
+      <img src="../assets/images/Curiosity.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <p class="card-text">Click the button below to view pictures taken by This rover.</p>
+        <button type="button" class="btn btn-primary">Curiosity</button>
+      </div>
+    </div>
+      </div>
+      <div class="col-4">
+      <div class="card" style="width: 23rem;">
+      <img src="../assets/images/Opportunity.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <p class="card-text">Click the button below to view pictures taken by This rover.</p>
+        <button type="button" class="btn btn-primary">Opportunity</button>
+      </div>
+    </div>
+      </div>
+      <div class="col-4">
+      <div class="card" style="width: 23rem;">
+      <img src="../assets/images/Spirit.jpg" class="card-img-top" alt="...">
+      <div class="card-body">
+        <p class="card-text">Click the button below to view pictures taken by This rover.</p>
+        <button type="button" class="btn btn-primary">Spirit</button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+        </section>  
+        
     `
 }
+// return mars side nave buttons
+const marsSideNavButtons = (rovers) => {
+    let navButtons = ""
+    rovers.forEach((rover) => {
+        navButtons +=
+            `<button type="button" class="btn btn-primary btn-lg btn-block">
+            ${rover}
+        </button>
+        
+        `
+    })
+    return navButtons
+}
 
+// shows home page
+const showHomePage = () => {
+    store.currentPage = 'home'
+    render(rootBodyElement, store)
+}
+
+//shows the mars page
+const showMarsPage = () => {
+    store.currentPage = 'mars'
+    render(rootBodyElement, store)
+}
+
+//shows the astronomy page
+const showAstronomyPage = () => {
+    store.currentPage = 'astronomy'
+    render(rootBodyElement, store)
+}
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
-    render(root, store)
+    console.log('current store, ', store)
+    render(rootBodyElement, store)
+    console.log('updated store, ', store)
 })
 
 // ------------------------------------------------------  COMPONENTS
@@ -62,44 +135,48 @@ const Greeting = (name) => {
         <h1>Hello!</h1>
     `
 }
+// ------------------------------------------------------  API CALLS
+// the response on the client side
+// Example API call
+
+
 
 // Example of a pure function that renders infomation requested from the backend
+// If image does not already exist, or it is not from today -- request it again
 const ImageOfTheDay = (apod) => {
-
-    // If image does not already exist, or it is not from today -- request it again
     const today = new Date()
-    const photodate = new Date(apod.date)
-    console.log(photodate.getDate(), today.getDate());
-
-    console.log(photodate.getDate() === today.getDate());
-    if (!apod || apod.date === today.getDate() ) {
-        getImageOfTheDay(store)
+    if (!apod || store.apod.image.date === today.getDate()) {
+        getImageOfTheDay()
     }
 
     // check if the photo of the day is actually type video!
-    if (apod.media_type === "video") {
+    if (store.apod && store.apod.image.media_type === "video") {
         return (`
-            <p>See today's featured video <a href="${apod.url}">here</a></p>
-            <p>${apod.title}</p>
-            <p>${apod.explanation}</p>
-        `)
-    } else {
+          <p>See today's featured video <a href="${store.apod.image.url}">here</a></p>
+          <p>${store.apod.image.title}</p>
+          <p style="font-size:12px;font-family:sans;width40%">${store.apod.image.explanation}</p>
+      `)
+    } else if (store.apod && store.apod.image.media_type == "image") {
+
         return (`
-            <img src="${apod.image.url}" height="350px" width="100%" />
-            <p>${apod.image.explanation}</p>
-        `)
+          <img src="${store.apod.image.url}" height="450px" width="100%" />
+          <h3 style="font-size:12px;font-family:sans;width40%">${store.apod.image.title}</h3> 
+          <p style="font-size:12px;font-family:sans;width40%">${store.apod.image.explanation}</p>
+      `)
     }
 }
 
-// ------------------------------------------------------  API CALLS
-
-// Example API call
-const getImageOfTheDay = (state) => {
-    let { apod } = state
-
+// call backend to get information on image
+const getImageOfTheDay = () => {
     fetch(`http://localhost:3000/apod`)
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
-
-    return data
+    console.log('this will be the new store', store)
 }
+const getWeatherData = () => {
+    fetch(`http://localhost:3000/currentpage`)
+}
+
+
+
+

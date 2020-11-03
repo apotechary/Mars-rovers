@@ -1,4 +1,12 @@
 /* -------------------  MOBILE  --------------------- */
+/* 
+h1 {
+  text-align: center; 
+} */
+
+img {
+  margin: 10px 20px;
+}
 
 body {
   display: flex;
@@ -7,18 +15,23 @@ body {
   min-height: 100vh;
 }
 
-header {
-  /* header styles */
-}
+ /* header {
+   header styles 
+}  */
 
 main {
   flex: 1;
   padding: 20px;
 }
-
-footer {
-  /* footer styles */
+#root {
+  margin: -7px;
+  padding: 5px;
+  
 }
+
+/* footer {
+   footer styles
+} */
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
