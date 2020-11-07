@@ -19,15 +19,25 @@ app.get('/apod', async (req, res) => {
     try {
         // get todays image data from nasa
         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(r => r.json())
-
+            .then(res => res.json())
         // send nasa data back to client    
         res.send({ image })
     } catch (err) {
         console.log('error:', err);
     }
 })
+app.get('/currentPage', async (req, res) => {
+    try {
+        // get today's weather data from nasa 
+        let weather = await fetch(`https://api.nasa.gov/insight_weather/?api_key=${process.env.API_KEY}&feedtype=json&ver=1.0`)
+            .then(r => r.json())
+        //send nasa weather data back to client
+        res.send({ weather })
+    } catch (err) {
+        console.log('error:', err);
 
+    }
+})
 
 
 // app.get('/rovers', async(req,res) => {

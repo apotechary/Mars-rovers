@@ -1,13 +1,12 @@
 // variable keeping state information
 let store = {
     currentPage: 'home',
-    user: { name: 'Student' },
-    apod: null,
+    // user: { name: 'Student' },
+    apod: '',
     rovers: ['Curiosity', 'Opportunity', 'Spirit'],
 }
 // const imagesOfRovers => {
 //     if rovers == 'Curiosity' {
-
 //     }
 // }
 
@@ -15,31 +14,23 @@ let store = {
 const rootBodyElement = document.getElementById('root')
 
 // updates the state variable
-const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
-    // render(rootBodyElement, store)
-}
 
 // given rootBody element and current state, render the html page
 const render = async (root, state) => {
     root.innerHTML = AppBody(state)
 }
-
 //const astronomy
 
 // create content
 const AppBody = (state) => {
     let { rovers, apod, currentPage } = state
     //// THIS IS WHERE THE CONTENT THAT WAS DISPLAYED ON PAGE WAS LOCATED --AFTER THE RETURN STATEMENT 
-
     if (currentPage == 'mars') {
         return `
             <h3>Weather forcast for Mars is </h3>
             <p>Here is an example section.</p> 
-        </section> 
         `
     }
-
     if (currentPage == 'astronomy') {
         return `
            ${ImageOfTheDay(apod)}
@@ -47,7 +38,7 @@ const AppBody = (state) => {
     }
 
     return `
-    
+    <section>
     <div class="container">
     <div class="row">
       <div class="col-4">
@@ -73,49 +64,43 @@ const AppBody = (state) => {
       <img src="../assets/images/Spirit.jpg" class="card-img-top" alt="...">
       <div class="card-body">
         <p class="card-text">Click the button below to view pictures taken by This rover.</p>
-        <button type="button" class="btn btn-primary">Spirit</button>
+        <button type="button" class="btn btn-primary"> Spirit </button>
       </div>
     </div>
       </div>
     </div>
   </div>
-        </section>  
+  </section>  
         
     `
 }
-// return mars side nave buttons
-const marsSideNavButtons = (rovers) => {
-    let navButtons = ""
-    rovers.forEach((rover) => {
-        navButtons +=
-            `<button type="button" class="btn btn-primary btn-lg btn-block">
-            ${rover}
-        </button>
-        
-        `
-    })
-    return navButtons
+const updateStore = (store, newState) => {
+    store = Object.assign(store, newState)
+    // render(rootBodyElement, store)
 }
-
 // shows home page
 const showHomePage = () => {
     store.currentPage = 'home'
     render(rootBodyElement, store)
+
 }
 
 //shows the mars page
 const showMarsPage = () => {
     store.currentPage = 'mars'
     render(rootBodyElement, store)
+
 }
 
 //shows the astronomy page
 const showAstronomyPage = () => {
     store.currentPage = 'astronomy'
     render(rootBodyElement, store)
+
 }
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
+    getImageOfTheDay()
     console.log('current store, ', store)
     render(rootBodyElement, store)
     console.log('updated store, ', store)
@@ -124,22 +109,20 @@ window.addEventListener('load', () => {
 // ------------------------------------------------------  COMPONENTS
 
 // Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
-const Greeting = (name) => {
-    if (name) {
-        return `
-            <h1>Welcome, ${name}!</h1>
-        `
-    }
+// const Greeting = (name) => {
+//     if (name) {
+//         return `
+//             <h1>Welcome, ${name}!</h1>
+//         `
+//     }
 
-    return `
-        <h1>Hello!</h1>
-    `
-}
+//     return `
+//         <h1>Hello!</h1>
+//     `
+// }
 // ------------------------------------------------------  API CALLS
 // the response on the client side
 // Example API call
-
-
 
 // Example of a pure function that renders infomation requested from the backend
 // If image does not already exist, or it is not from today -- request it again
@@ -150,11 +133,11 @@ const ImageOfTheDay = (apod) => {
     }
 
     // check if the photo of the day is actually type video!
-    if (store.apod && store.apod.image.media_type === "video") {
+    if (store.apod && store.apod.image.media_type == "video") {
         return (`
           <p>See today's featured video <a href="${store.apod.image.url}">here</a></p>
           <p>${store.apod.image.title}</p>
-          <p style="font-size:12px;font-family:sans;width40%">${store.apod.image.explanation}</p>
+          <p>${store.apod.image.explanation}</p>
       `)
     } else if (store.apod && store.apod.image.media_type == "image") {
 
@@ -165,6 +148,12 @@ const ImageOfTheDay = (apod) => {
       `)
     }
 }
+// const getWeatherData = () => {
+//     return
+//     const sol = weather.sol_keys
+//     JSO[sol].AT.av
+
+// }
 
 // call backend to get information on image
 const getImageOfTheDay = () => {
@@ -172,11 +161,13 @@ const getImageOfTheDay = () => {
         .then(res => res.json())
         .then(apod => updateStore(store, { apod }))
     console.log('this will be the new store', store)
+
 }
-const getWeatherData = () => {
-    fetch(`http://localhost:3000/currentpage`)
-}
-
-
-
-
+// const getWeatherData = () => {
+//     fetch(`http://localhost:3000/currentpage`)
+// }
+// fetch(`http://localhost:3000/currentPage`)
+    //     .then(res => res.json())
+    // console.log('weatherres', res)
+    //     .then(weather => updateStore(store, { weather }))
+    // console.log('this will be the new jsonfile', weather)
