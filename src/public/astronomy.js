@@ -1,4 +1,4 @@
-
+// for image of the day API and ROVERS API
 const ImageOfTheDay = (apod) => {
     const today = new Date()
     if (!apod || store.apod.image.date === today.toString()) {
@@ -13,14 +13,13 @@ const ImageOfTheDay = (apod) => {
       `)
     } else if (store.apod && store.apod.image.media_type == "image") {
 
-        return (`
-          <img src="${store.apod.image.url}" height="450px" width="100%" />
-          <h3 style="font-size:12px;font-family:sans;width40%">${store.apod.image.title}</h3> 
-          <p style="font-size:12px;font-family:sans;width40%">${store.apod.image.explanation}</p>
-      `)
+        return (`<div style= margin:5%;>
+          <img src="${store.apod.image.url}" height="500px" width="100%" style="verticalalign:middle; border-style:groove;" />
+          <h2 style="font-size:17px;padding:12px; margin:12px; color:white;font-family:sans;width 50%">${store.apod.image.title}</h3> 
+          <p style="font-size:16px; padding:12px; margin:12px; color:#dbf0e7e6;font-family:sans;width40%">${store.apod.image.explanation}</p>
+      </div>`)
     }
 }
-
 const getImageOfTheDay = () => {
     fetch(`http://localhost:3000/apod?`)
         .then(res => res.json())
@@ -28,11 +27,6 @@ const getImageOfTheDay = () => {
 }
 
 // Higer order function that renders UI
-// const displayData = async(roverName, callBack() => ({
-//     const info = await getRoverinfo(roverName);
-//     callBack(info);
-// });
-
 const getRoverinfo = async (roverName) => {
     await fetch(`http://localhost:3000/roverinfo?rname=${roverName}`)
         .then(res => res.json())
@@ -47,20 +41,18 @@ const showRoverinfo = () => {
     const photos = store.photoInfo.photos;
     return (` 
         <div class="row">
-            <div class="col-md-3"> 
-                <h2> Stats of ${roverData.name}: </h2>
+            <div class="col-md-3" style="background-image:url('../assets/images/spirit.jpg');"> 
+                <h2>${roverData.name}: </h2>
                 <ul class="list-group"> 
                     <li class="list-group-item"> Launch Date:${roverData.launch_date} </li>
                     <li class="list-group-item"> Landing Date:${roverData.landing_date} </li>
                     <li class="list-group-item"> Status: ${roverData.status.toUpperCase()} </li>
                     <li class="list-group-item"> Most recent photos were taken on: ${roverData.max_date} </li>
                     <li class="list-group-item"> Total Photos by rover since landing: ${roverData.total_photos}
-                    <li class="list-group-item"> Total Photos by rover since landing: ${roverData.total_photos}
                 </ul> 
             </div>
             <div class="col-md-7">
-                <h2>Images Taken</h2>
-                
+                <h2 style="color:white;text-align:center;">Most Recent Images By Rover</h2>
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
@@ -81,12 +73,10 @@ const showRoverinfo = () => {
         </div>`
     )
 }
-
 const showRoverPhoto = (photos) => {
     let photoList = "";
 
     photos.forEach((p, index) => {
-
         photoList += `
         <div class="carousel-item">
             <img class="d-block w-100" src="${p.img_src}" alt="${index} slide">

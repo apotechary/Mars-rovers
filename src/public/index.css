@@ -15,34 +15,95 @@ body {
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  background-image:url('../assets/images/starynight.jpg');
 }
 
  /* header {
    header styles 
 }  */
 
-main {
-  flex: 1;
-  padding: 20px;
+#main {
+  /* flex: 1; */
+  background-image:url('../assets/images/starynight.jpg');
+  
 }
 #root {
-  padding: 10px;
-  min-height: 100%;
+  padding: 1px;
+  margin-top: 23px;
+  min-height: 70%;
+  background-repeat: no-repeat;
 }
 
-/* .weather {
-  background-image: url("../assets/images/Curiosity.jpg");
+.container {
+
+width: 100%;
+padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: auto;
+margin-top:8%;
+padding-bottom: 15%;
+ }
+
+h2 {
+font-size: 33px;
+color: aliceblue;
+
+
+}
+span {
+  color:black;
+  font-size: 20px;
+  font-weight:300px;
+}
+.list-group-item{
+  opacity: 0.6;
+  font-weight: 200px;
+  font-size: large;
+}
+
+.navbar {
+  opacity: 0.7;
+  color: aliceblue;
+}
+.weather {
+  margin:12px;
+  background-image:url('../assets/images/Insight-Lander.jpg');
+  margin-right: 0px;
+  margin-left: 22%;
+  margin-bottom: 5%;
+  margin-top: 8%;
+  padding: 12px;
+  height: 50%;
+  width: 75%;
+}
+.col-md-7 {
+  max-height: 45%;
+  max-width: 32%;
+}
+.carousel img {
+  max-width: 70%;
+  border-style:groove;
+  margin: 0 auto;
+}
+
+.item img {
+position: absolute;
+object-fit: cover;
+top: 0;
+left: 0;
+min-height: 45%;
+}
+.rovs {
+  background-image:url('../assets/images/mars_skyline_610.jpg');
+}
+/* .d-block {
+max-width: 100%;
+object-fit: cover;
 } */
-
-
-footer {
-  position: fixed;
-  height: 100px;
-  width: 100%;
-  bottom: 0;
-  background: #343a40;
-  padding: 20px;
-} 
+/* .row {
+  background-image:url('../assets/images/starynight.jpg');
+} */
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {

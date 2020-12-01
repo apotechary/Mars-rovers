@@ -12,30 +12,30 @@ const render = async (root, state) => {
 }
 // create content
 const AppBody = (state) => {
-    let rootEl = document.getElementById('root');
-    rootEl.style.backgroundImage = "url('../assets/images/marsforweather.jpg')";
+    rootBodyElement.style.backgroundImage = "url('../assets/images/starynight.jpg')";
     let { rovers, apod, currentPage } = state
     if (currentPage == 'mars') {
-        rootEl.style.backgroundImage = "url('../assets/images/Insight-Lander.jpg')";
+        // rootBodyElement.style.backgroundImage = "url('../assets/images/starynight.jpg')";
+        document.getElementById('main').style = "marginBottom: 200px;"
         return `
-            <h3>Weather forcast for Mars is </h3>
-            <p>Here is an example section.</p> 
+            <h3 style="color:#fff;">Weather recorded for Mars  </h3>
+            <span style="color:#fff; font-size:13px;"> 
+             A Mars solar day has a mean period of 24 hours 39 minutes 35.244 seconds, and is customarily referred to as a "sol"</span>
+            <p style="color:#fff;">Weather displayed by "SOL Days"</p> 
             ${getWeather()}
+           
         `
     }
     if (currentPage == 'astronomy') {
-        rootEl.style.backgroundImage = "";
         return ImageOfTheDay(apod)
     }
     if (currentPage == 'rovers') {
-        rootEl.style.backgroundImage = "url('../assets/images/Curiosity.jpg')";
         return showRoverinfo()
     }
     return `
-
-        <div class="container">
+            <div class="container">
             <div class="row">
-                <div class="col-4">
+                <div class="col-lg-4 col-sm-12">
                     <div class="card" >
                         <img src="../assets/images/Curiosity.jpg" class="card-img-top" alt="curiosityroverimage">
                             <div class="card-body">
@@ -44,7 +44,7 @@ const AppBody = (state) => {
                             </div >
                     </div>
                 </div >
-                <div class="col-4">
+                <div class="col-lg-4 col-sm-12">
                     <div class="card" >
                         <img src="../assets/images/Opportunity.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
@@ -53,7 +53,7 @@ const AppBody = (state) => {
                             </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-4 col-sm-12">
                     <div class="card">
                         <img src="../assets/images/Spirit.jpg"  class="card-img-top" alt="...">
                             <div class="card-body">
